@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare - Login & Register</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pharma-green': {
+                            50: '#ccfbf1',
+                            100: '#99f6e4',
+                            200: '#bbf7d0' ,
+                            300: '#34d399',
+                            400: '#059669',
+                            500: '#065f46',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        'pharma-blue': {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-pharma-green-50 via-white to-blue-50 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto">
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Hero Section -->
+        <div class="lg:w-1/2">
+            <div class="bg-white rounded-3xl shadow-2xl p-8 h-full border-2 border-white">
+                <div class="text-center lg:text-left">
+                    <div class="flex items-center justify-center lg:justify-start mb-6">
+                        <div class="bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 p-4 rounded-2xl shadow-lg">
+                            <i class="fas fa-prescription-bottle-alt text-white text-3xl"></i>
+                        </div>
+                        <h1 class="text-4xl font-bold text-pharma-green-800 ml-4">CarePlus</h1>
+                    </div>
+                    <p class="text-xl text-gray-600 mb-6 font-medium">Your Trusted Pharmacy Partner</p>
+                    <p class="text-gray-500 mb-8 text-lg leading-relaxed">
+                        Access your account to manage prescriptions, order medications, and get health advice from our certified pharmacists.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center bg-pharma-green-50 p-4 rounded-2xl border border-pharma-green-200">
+                            <i class="fas fa-shield-check text-pharma-green-500 text-xl mr-4"></i>
+                            <span class="text-gray-700 font-medium">Ensuring your health data remains private, secure and protected.</span>
+                        </div>
+                        <div class="flex items-center bg-blue-50 p-4 rounded-2xl border border-blue-200">
+                            <i class="fas fa-shipping-fast text-blue-500 text-xl mr-4"></i>
+                            <span class="text-gray-700 font-medium">Fast Delivery Services</span>
+                        </div>
+                        <div class="flex items-center bg-purple-50 p-4 rounded-2xl border border-purple-200">
+                            <i class="fas fa-headset text-purple-500 text-xl mr-4"></i>
+                            <span class="text-gray-700 font-medium">24/7 Pharmacist Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auth Tabs Section -->
+        <div class="lg:w-1/2">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border-2 border-white">
+                <!-- Tabs Navigation -->
+                <div class="flex border-b border-gray-200">
+                    <button class="tab-button flex-1 py-5 px-6 text-center font-semibold text-gray-600 border-b-2 border-transparent hover:text-pharma-green-600 transition-colors bg-gradient-to-r from-pharma-green-50 to-white" data-tab="login">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Login
+                    </button>
+                    <button class="tab-button flex-1 py-5 px-6 text-center font-semibold text-gray-600 border-b-2 border-transparent hover:text-pharma-green-600 transition-colors" data-tab="register">
+                        <i class="fas fa-user-plus mr-2"></i>Register
+                    </button>
+                </div>
+
+                <!-- Login Tab Content -->
+                <div id="loginTab" class="tab-content active p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h3>
+                    <p class="text-gray-500 mb-6">Sign in to your account to continue</p>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label for="loginEmail" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-envelope text-gray-400 text-lg"></i>
+                                </div>
+                                <input type="email" id="loginEmail" class="pl-12 w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="your@email.com">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="loginPassword" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-gray-400 text-lg"></i>
+                                </div>
+                                <input type="password" id="loginPassword" class="pl-12 w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="********">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="rememberMe" class="h-5 w-5 text-pharma-green-600 focus:ring-pharma-green-500 border-gray-300 rounded-2xl">
+                                <label for="rememberMe" class="ml-3 block text-sm text-gray-700 font-medium">Remember me</label>
+                            </div>
+                            <a href="#" class="text-sm text-pharma-green-600 hover:text-pharma-green-500 font-semibold">Forgot Password?</a>
+                        </div>
+
+                        <button id="loginBtn" class="w-full bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 text-white py-4 px-4 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-0.5 font-bold text-lg">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Register Tab Content -->
+                <div id="registerTab" class="tab-content hidden p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Create an Account</h3>
+                    <p class="text-gray-500 mb-6">Join PharmaCare today for better healthcare</p>
+
+                    <div class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label for="registerFirstName" class="block text-sm font-semibold text-gray-700 mb-2">First Name</label>
+                                <input type="text" id="registerFirstName" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="First Name">
+                            </div>
+                            <div>
+                                <label for="registerLastName" class="block text-sm font-semibold text-gray-700 mb-2">Last Name</label>
+                                <input type="text" id="registerLastName" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="Last Name">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="registerEmail" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-envelope text-gray-400 text-lg"></i>
+                                </div>
+                                <input type="email" id="registerEmail" class="pl-12 w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="your@email.com">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="registerPhone" class="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-phone text-gray-400 text-lg"></i>
+                                </div>
+                                <input type="tel" id="registerPhone" class="pl-12 w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="(123) 456-7890">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="registerPassword" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-gray-400 text-lg"></i>
+                                </div>
+                                <input type="password" id="registerPassword" class="pl-12 w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="********">
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2 font-medium">Must be at least 8 characters with a number and symbol</p>
+                        </div>
+
+                        <div>
+                            <label for="confirmPassword" class="block text-sm font-semibold text-gray-700 mb-2">Confirm Password</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-gray-400 text-lg"></i>
+                                </div>
+                                <input type="password" id="confirmPassword" class="pl-12 w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="********">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center bg-gray-50 p-4 rounded-2xl border border-gray-200">
+                            <input type="checkbox" id="agreeTerms" class="h-5 w-5 text-pharma-green-600 focus:ring-pharma-green-500 border-gray-300 rounded-2xl">
+                            <label for="agreeTerms" class="ml-3 block text-sm text-gray-700 font-medium">
+                                I agree to the <a href="#" class="text-pharma-green-600 hover:text-pharma-green-500 font-semibold">Terms of Service</a> and <a href="#" class="text-pharma-green-600 hover:text-pharma-green-500 font-semibold">Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        <button id="registerBtn" class="w-full bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 text-white py-4 px-4 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-0.5 font-bold text-lg">
+                            <i class="fas fa-user-plus mr-2"></i>Create Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Tab functionality
+    $(document).ready(function() {
+        // Tab switching
+        $('.tab-button').click(function() {
+            const tab = $(this).data('tab');
+
+            // Update active tab button
+            $('.tab-button').removeClass('active border-pharma-green-500 text-pharma-green-600 bg-gradient-to-r from-pharma-green-50 to-white');
+            $(this).addClass('active border-pharma-green-500 text-pharma-green-600 bg-gradient-to-r from-pharma-green-50 to-white');
+
+            // Show active tab content
+            $('.tab-content').removeClass('active').addClass('hidden');
+            $(`#${tab}Tab`).removeClass('hidden').addClass('active');
+        });
+
+        // Set initial active tab
+        $('.tab-button[data-tab="login"]').addClass('active border-pharma-green-500 text-pharma-green-600');
+
+        // Enhanced validation functions
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 8;
+        }
+
+        function validatePhone(phone) {
+            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+            return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
+        }
+
+        // Enhanced login functionality
+        $('#loginBtn').click(function(e) {
+            e.preventDefault();
+
+            var email = $('#loginEmail').val();
+            var password = $('#loginPassword').val();
+
+            // Client-side validation
+            if (!email || !validateEmail(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            if (!password) {
+                alert('Please enter your password');
+                return;
+            }
+
+            var credentials = {
+                email: email,
+                password: password
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/login',
+                contentType: 'application/json',
+                data: JSON.stringify(credentials),
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = response.redirect;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error during login: ' + error);
+                }
+            });
+        });
+
+        // Enhanced register functionality
+        $('#registerBtn').click(function(e) {
+            e.preventDefault();
+
+            if (!$('#agreeTerms').is(':checked')) {
+                alert('You must agree to the terms and conditions');
+                return;
+            }
+
+            var firstName = $('#registerFirstName').val();
+            var lastName = $('#registerLastName').val();
+            var email = $('#registerEmail').val();
+            var phone = $('#registerPhone').val();
+            var password = $('#registerPassword').val();
+            var confirmPassword = $('#confirmPassword').val();
+
+            // Client-side validation
+            if (!firstName.trim()) {
+                alert('Please enter your first name');
+                return;
+            }
+
+            if (!lastName.trim()) {
+                alert('Please enter your last name');
+                return;
+            }
+
+            if (!email || !validateEmail(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            if (phone && !validatePhone(phone)) {
+                alert('Please enter a valid phone number');
+                return;
+            }
+
+            if (!password || !validatePassword(password)) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            var registrationData = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phoneNumber: phone,
+                password: password,
+                confirmPassword: confirmPassword
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/register',
+                contentType: 'application/json',
+                data: JSON.stringify(registrationData),
+                success: function(response) {
+                    if (response.success) {
+                        window.location.href = response.redirect;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Error during registration: ' + error);
+                }
+            });
+        });
+
+        // Real-time validation
+        $('#registerPassword').on('input', function() {
+            var password = $(this).val();
+            if (password.length > 0 && password.length < 8) {
+                $(this).addClass('border-red-500');
+            } else {
+                $(this).removeClass('border-red-500');
+            }
+        });
+
+        $('#confirmPassword').on('input', function() {
+            var confirm = $(this).val();
+            var original = $('#registerPassword').val();
+            if (confirm !== original) {
+                $(this).addClass('border-red-500');
+            } else {
+                $(this).removeClass('border-red-500');
+            }
+        });
+    });
+</script>
+<style>
+    .tab-button.active {
+        border-bottom-color: #22c55e;
+        color: #22c55e;
+    }
+
+    .tab-content {
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        border-color: #22c55e;
+    }
+</style>
+</body>
+</html>

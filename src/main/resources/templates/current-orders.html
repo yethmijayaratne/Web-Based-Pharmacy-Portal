@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare - Current Orders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pharma-green': {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        'pharma-blue': {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-pharma-green-50 via-white to-blue-50 min-h-screen">
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-80 bg-gradient-to-b from-white to-pharma-green-50 shadow-2xl flex flex-col border-r-2 border-pharma-green-100">
+        <!-- Logo Section -->
+        <div class="p-6 border-b border-pharma-green-100">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 p-3 rounded-xl shadow-lg">
+                    <i class="fas fa-prescription-bottle-alt text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-pharma-green-800">CarePlus</h1>
+                    <p class="text-sm text-pharma-green-600">Your Health, Our Priority</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="mt-6 flex-1 px-4">
+            <div class="space-y-2">
+                <a href="/dashboard" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-pharma-green-50 hover:to-pharma-green-100 border-2 border-transparent hover:border-pharma-green-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pharma-green-400 to-pharma-green-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-user-edit text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-pharma-green-800">Profile Management</span>
+                        <p class="text-xs text-gray-500 group-hover:text-pharma-green-600">Manage your personal info</p>
+                    </div>
+                </a>
+
+                <a href="/discover-medicine" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-emerald-50 hover:to-emerald-100 border-2 border-transparent hover:border-emerald-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-pills text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-emerald-800">Discover Medicine</span>
+                        <p class="text-xs text-gray-500 group-hover:text-emerald-600">Browse our pharmacy catalog</p>
+                    </div>
+                </a>
+
+                <a href="/order-medicine" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 border-2 border-transparent hover:border-blue-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-prescription text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-blue-800">Order Medicine</span>
+                        <p class="text-xs text-gray-500 group-hover:text-blue-600">Upload prescriptions</p>
+                    </div>
+                </a>
+
+                <a href="/current-orders" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group bg-gradient-to-r from-purple-50 to-purple-100 border-2 border-purple-200 shadow-sm">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-400 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-clipboard-list text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-semibold text-purple-800">Current Orders</span>
+                        <p class="text-xs text-purple-600">Track your orders</p>
+                    </div>
+                </a>
+
+                <a href="/chat" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-indigo-50 hover:to-indigo-100 border-2 border-transparent hover:border-indigo-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-comment-medical text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-indigo-800">AI Assistant</span>
+                        <p class="text-xs text-gray-500 group-hover:text-indigo-600">Get health advice</p>
+                    </div>
+                </a>
+
+                <a href="/cart" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 border-2 border-transparent hover:border-orange-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-shopping-cart text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-orange-800">Cart Details</span>
+                        <p class="text-xs text-gray-500 group-hover:text-orange-600">Review your cart</p>
+                    </div>
+                    <div class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold">3</div>
+                </a>
+            </div>
+        </nav>
+
+        <!-- User Profile Section -->
+        <div class="p-6 border-t border-pharma-green-100 mt-auto">
+            <div class="bg-white rounded-2xl p-4 shadow-lg border border-pharma-green-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-pharma-green-400 to-pharma-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-user-md text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-gray-800" id="sidebarUserName">CarePlus Pharmacy</p>
+                        <p class="text-xs text-pharma-green-600 font-medium">web based portal</p>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Member Since: 2024</span>
+                        <span class="text-pharma-green-600 font-medium">Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white shadow-lg border-b-4 border-purple-500">
+            <div class="flex justify-between items-center px-8 py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-purple-500 p-3 rounded-xl shadow-lg">
+                        <i class="fas fa-clipboard-list text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Current Orders</h2>
+                        <p class="text-sm text-gray-500">View your prescription orders and status</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-6">
+                    <!-- Quick Actions -->
+                    <div class="flex items-center space-x-4">
+                        <a href="/discover-medicine" class="bg-gradient-to-r from-emerald-400 to-emerald-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center space-x-2">
+                            <i class="fas fa-pills"></i>
+                            <span>Discover Medicine</span>
+                        </a>
+
+                        <a href="/order-medicine" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center space-x-2">
+                            <i class="fas fa-prescription"></i>
+                            <span>Upload Prescription</span>
+                        </a>
+                    </div>
+
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center space-x-3 bg-pharma-green-50 px-4 py-2 rounded-xl hover:bg-pharma-green-100 transition-colors border-2 border-transparent hover:border-pharma-green-200">
+                            <div class="w-10 h-10 bg-gradient-to-r from-pharma-green-400 to-pharma-green-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-gray-800" id="headerUserName">MLB-B3G1-10</p>
+                                <p class="text-xs text-pharma-green-600">Y2S1</p>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right z-50">
+                            <div class="p-4 border-b border-gray-100">
+                                <p class="text-sm font-semibold text-gray-800" id="dropdownUserName">IT24100284</p>
+                                <p class="text-xs text-gray-500" id="dropdownUserEmail">Jayaratne M. I. De S.</p>
+                            </div>
+                            <div class="p-2">
+                                <a href="/dashboard" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-pharma-green-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-pharma-green-100 rounded-lg flex items-center justify-center group-hover:bg-pharma-green-200 transition-colors">
+                                        <i class="fas fa-user-edit text-pharma-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Edit Profile</span>
+                                </a>
+                                <a href="/current-orders" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-purple-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                                        <i class="fas fa-clipboard-list text-purple-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Current Orders</span>
+                                </a>
+                                <a href="/cart" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
+                                        <i class="fas fa-shopping-cart text-orange-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Cart Details</span>
+                                    <span class="ml-auto bg-orange-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+                                </a>
+                            </div>
+                            <div class="p-2 border-t border-gray-100">
+                                <a href="/logout" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-red-50 text-red-600 transition-colors group">
+                                    <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors">
+                                        <i class="fas fa-sign-out-alt text-red-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <button class="relative p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
+                        <i class="fas fa-bell text-xl text-gray-600 group-hover:text-pharma-green-600"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-lg">3</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Current Orders Content -->
+        <main class="flex-1 overflow-auto p-8">
+            <div class="max-w-7xl mx-auto">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 border-2 border-white">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">Your Current Orders</h3>
+                            <p class="text-gray-500 mt-2">Track and manage your prescription orders</p>
+                        </div>
+                        <button id="refreshBtn" class="bg-gradient-to-r from-purple-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-xl transition-all transform hover:-translate-y-0.5 font-semibold flex items-center space-x-2">
+                            <i class="fas fa-refresh"></i>
+                            <span>Refresh Orders</span>
+                        </button>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="flex space-x-1 bg-gray-100 p-2 rounded-2xl mb-8">
+                        <button class="filter-tab flex-1 py-3 px-6 text-center font-semibold rounded-xl transition-all duration-300 bg-white text-purple-600 shadow-sm" data-status="all">
+                            <i class="fas fa-layer-group mr-2"></i>All Orders
+                        </button>
+                        <button class="filter-tab flex-1 py-3 px-6 text-center font-semibold text-gray-600 rounded-xl hover:text-purple-600 transition-all duration-300" data-status="PENDING">
+                            <i class="fas fa-clock mr-2"></i>Pending
+                        </button>
+                        <button class="filter-tab flex-1 py-3 px-6 text-center font-semibold text-gray-600 rounded-xl hover:text-purple-600 transition-all duration-300" data-status="APPROVED">
+                            <i class="fas fa-check-circle mr-2"></i>Approved
+                        </button>
+                        <button class="filter-tab flex-1 py-3 px-6 text-center font-semibold text-gray-600 rounded-xl hover:text-purple-600 transition-all duration-300" data-status="PROCESSING">
+                            <i class="fas fa-cogs mr-2"></i>Processing
+                        </button>
+                        <button class="filter-tab flex-1 py-3 px-6 text-center font-semibold text-gray-600 rounded-xl hover:text-purple-600 transition-all duration-300" data-status="COMPLETED">
+                            <i class="fas fa-check-double mr-2"></i>Completed
+                        </button>
+                    </div>
+
+                    <!-- Orders Statistics -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-2xl border-2 border-blue-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-semibold text-blue-800">Total Orders</p>
+                                    <p class="text-2xl font-bold text-blue-600" id="totalOrders">0</p>
+                                </div>
+                                <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-clipboard-list text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 p-6 rounded-2xl border-2 border-yellow-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-semibold text-yellow-800">Pending</p>
+                                    <p class="text-2xl font-bold text-yellow-600" id="pendingOrders">0</p>
+                                </div>
+                                <div class="w-12 h-12 bg-yellow-500 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-clock text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-2xl border-2 border-green-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-semibold text-green-800">Approved</p>
+                                    <p class="text-2xl font-bold text-green-600" id="approvedOrders">0</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-check-circle text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-2xl border-2 border-purple-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-semibold text-purple-800">Completed</p>
+                                    <p class="text-2xl font-bold text-purple-600" id="completedOrders">0</p>
+                                </div>
+                                <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-check-double text-white text-xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6" id="ordersList">
+                        <!-- Orders will be loaded here dynamically -->
+                        <div class="text-center py-16">
+                            <div class="bg-gray-50 rounded-2xl p-12 border-2 border-gray-200 max-w-md mx-auto">
+                                <i class="fas fa-clipboard-list text-5xl text-gray-300 mb-4"></i>
+                                <p class="text-gray-700 font-medium mb-2">Loading your orders...</p>
+                                <p class="text-gray-500 text-sm">Please wait while we fetch your prescription orders</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-2xl">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                <i class="fas fa-prescription text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">New Prescription</h4>
+                                <p class="text-blue-100 text-sm">Upload a new prescription</p>
+                            </div>
+                        </div>
+                        <a href="/order-medicine" class="mt-4 inline-block bg-white text-blue-600 px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all">
+                            Upload Now
+                        </a>
+                    </div>
+                    <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-2xl">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                <i class="fas fa-pills text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Discover Medicine</h4>
+                                <p class="text-emerald-100 text-sm">Browse our catalog</p>
+                            </div>
+                        </div>
+                        <a href="/discover-medicine" class="mt-4 inline-block bg-white text-emerald-600 px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all">
+                            Browse Now
+                        </a>
+                    </div>
+                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-2xl">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                <i class="fas fa-headset text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Need Help?</h4>
+                                <p class="text-purple-100 text-sm">Contact our support</p>
+                            </div>
+                        </div>
+                        <a href="/chat" class="mt-4 inline-block bg-white text-purple-600 px-4 py-2 rounded-xl font-semibold hover:shadow-lg transition-all">
+                            Get Help
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    // Load current orders
+    async function loadCurrentOrders(status = 'all') {
+        try {
+            const response = await fetch('/prescriptions/my-prescriptions');
+            const result = await response.json();
+
+            const ordersList = document.getElementById('ordersList');
+
+            if (result.success && result.prescriptions && result.prescriptions.length > 0) {
+                let filteredPrescriptions = result.prescriptions;
+
+                if (status !== 'all') {
+                    filteredPrescriptions = result.prescriptions.filter(p => p.status === status);
+                }
+
+                // Update statistics
+                updateOrderStatistics(result.prescriptions);
+
+                if (filteredPrescriptions.length === 0) {
+                    ordersList.innerHTML = `
+                        <div class="text-center py-16">
+                            <div class="bg-gray-50 rounded-2xl p-12 border-2 border-gray-200 max-w-md mx-auto">
+                                <i class="fas fa-clipboard-list text-5xl text-gray-300 mb-4"></i>
+                                <p class="text-gray-700 font-medium mb-2">No ${status === 'all' ? '' : status.toLowerCase()} orders found</p>
+                                <p class="text-gray-500 text-sm mb-6">${status === 'all' ? 'Your orders will appear here once you upload a prescription' : `No ${status.toLowerCase()} orders at the moment`}</p>
+                                <a href="/order-medicine" class="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all font-semibold">
+                                    <i class="fas fa-prescription mr-2"></i>Upload Your First Prescription
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                ordersList.innerHTML = filteredPrescriptions.map(prescription => `
+                    <div class="bg-white rounded-2xl p-6 border-2 border-gray-200 hover:shadow-xl transition-all duration-300 hover:border-purple-200">
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-purple-600 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-file-prescription text-white text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-lg">Prescription #PR${String(prescription.id).padStart(4, '0')}</h4>
+                                    <p class="text-sm text-gray-500">
+                                        <i class="far fa-clock mr-1"></i>
+                                        Uploaded: ${new Date(prescription.uploadDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })}
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="px-4 py-2 text-sm font-semibold rounded-full ${
+                    prescription.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' :
+                        prescription.status === 'APPROVED' ? 'bg-green-100 text-green-800 border border-green-200' :
+                            prescription.status === 'PROCESSING' ? 'bg-blue-100 text-blue-800 border border-blue-200' :
+                                prescription.status === 'COMPLETED' ? 'bg-gray-100 text-gray-800 border border-gray-200' :
+                                    prescription.status === 'REJECTED' ? 'bg-red-100 text-red-800 border border-red-200' :
+                                        'bg-gray-100 text-gray-800 border border-gray-200'
+                }">
+                                <i class="fas ${
+                    prescription.status === 'PENDING' ? 'fa-clock' :
+                        prescription.status === 'APPROVED' ? 'fa-check-circle' :
+                            prescription.status === 'PROCESSING' ? 'fa-cogs' :
+                                prescription.status === 'COMPLETED' ? 'fa-check-double' :
+                                    'fa-question'
+                } mr-2"></i>
+                                ${prescription.status}
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-sm mb-6">
+                            <div class="space-y-2">
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-user-md w-5 mr-3 text-purple-500"></i>
+                                    <span><strong>Doctor:</strong> ${prescription.doctorName || 'Not specified'}</span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-hospital w-5 mr-3 text-purple-500"></i>
+                                    <span><strong>Clinic:</strong> ${prescription.clinicName || 'Not specified'}</span>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-file w-5 mr-3 text-blue-500"></i>
+                                    <span><strong>File:</strong> ${prescription.fileName}</span>
+                                </div>
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-weight w-5 mr-3 text-blue-500"></i>
+                                    <span><strong>Size:</strong> ${(prescription.fileSize / 1024 / 1024).toFixed(2)} MB</span>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex items-center text-gray-600">
+                                    <i class="fas fa-file-alt w-5 mr-3 text-green-500"></i>
+                                    <span><strong>Type:</strong> ${prescription.fileType || 'Unknown'}</span>
+                                </div>
+                                ${prescription.processedDate ? `
+                                    <div class="flex items-center text-gray-600">
+                                        <i class="fas fa-calendar-check w-5 mr-3 text-green-500"></i>
+                                        <span><strong>Processed:</strong> ${new Date(prescription.processedDate).toLocaleDateString()}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        ${prescription.notes ? `
+                            <div class="mb-6 p-4 bg-blue-50 rounded-2xl border border-blue-200">
+                                <p class="text-sm text-blue-800"><strong><i class="fas fa-sticky-note mr-2"></i>Notes:</strong> ${prescription.notes}</p>
+                            </div>
+                        ` : ''}
+
+                        <div class="flex justify-between items-center pt-6 border-t border-gray-200">
+                            <div class="flex space-x-3">
+                                <button class="download-btn bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-xl hover:shadow-lg transition-all font-semibold flex items-center space-x-2"
+                                        data-prescription-id="${prescription.id}">
+                                    <i class="fas fa-download"></i>
+                                    <span>Download</span>
+                                </button>
+                                ${prescription.status === 'PENDING' ? `
+                                    <button class="delete-btn bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-xl hover:shadow-lg transition-all font-semibold flex items-center space-x-2"
+                                            data-prescription-id="${prescription.id}">
+                                        <i class="fas fa-trash"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                ` : ''}
+                            </div>
+                            <button class="view-details-btn border-2 border-gray-300 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all font-semibold flex items-center space-x-2"
+                                    data-prescription-id="${prescription.id}">
+                                <i class="fas fa-eye"></i>
+                                <span>View Details</span>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                ordersList.innerHTML = `
+                    <div class="text-center py-16">
+                        <div class="bg-gray-50 rounded-2xl p-12 border-2 border-gray-200 max-w-md mx-auto">
+                            <i class="fas fa-clipboard-list text-5xl text-gray-300 mb-4"></i>
+                            <p class="text-gray-700 font-medium mb-2">No orders found</p>
+                            <p class="text-gray-500 text-sm mb-6">Your orders will appear here once you upload a prescription</p>
+                            <a href="/order-medicine" class="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all font-semibold">
+                                <i class="fas fa-prescription mr-2"></i>Upload Your First Prescription
+                            </a>
+                        </div>
+                    </div>
+                `;
+                updateOrderStatistics([]);
+            }
+        } catch (error) {
+            console.error('Error loading orders:', error);
+            document.getElementById('ordersList').innerHTML = `
+                <div class="text-center py-16">
+                    <div class="bg-red-50 rounded-2xl p-12 border-2 border-red-200 max-w-md mx-auto">
+                        <i class="fas fa-exclamation-triangle text-5xl text-red-300 mb-4"></i>
+                        <p class="text-red-700 font-medium mb-2">Error loading orders</p>
+                        <p class="text-red-600 text-sm mb-6">Please try again later</p>
+                        <button id="retryBtn" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all font-semibold">
+                            <i class="fas fa-refresh mr-2"></i>Retry
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    // Update order statistics
+    function updateOrderStatistics(prescriptions) {
+        const total = prescriptions.length;
+        const pending = prescriptions.filter(p => p.status === 'PENDING').length;
+        const approved = prescriptions.filter(p => p.status === 'APPROVED').length;
+        const completed = prescriptions.filter(p => p.status === 'COMPLETED').length;
+
+        document.getElementById('totalOrders').textContent = total;
+        document.getElementById('pendingOrders').textContent = pending;
+        document.getElementById('approvedOrders').textContent = approved;
+        document.getElementById('completedOrders').textContent = completed;
+    }
+
+    // Download prescription
+    function downloadPrescription(prescriptionId) {
+        window.open(`/prescriptions/download/${prescriptionId}`, '_blank');
+    }
+
+    // Delete prescription
+    async function deletePrescription(prescriptionId) {
+        if (confirm('Are you sure you want to delete this prescription order? This action cannot be undone.')) {
+            try {
+                const response = await fetch(`/prescriptions/delete/${prescriptionId}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    showNotification('Prescription deleted successfully!', 'success');
+                    // Reload the current orders to reflect the deletion
+                    const activeTab = document.querySelector('.filter-tab.bg-white');
+                    const status = activeTab ? activeTab.getAttribute('data-status') : 'all';
+                    loadCurrentOrders(status);
+                } else {
+                    showNotification('Error deleting prescription: ' + result.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting prescription:', error);
+                showNotification('Error deleting prescription. Please try again.', 'error');
+            }
+        }
+    }
+
+    // View prescription details
+    function viewPrescriptionDetails(prescriptionId) {
+        // In a real application, this would open a modal with detailed information
+        showNotification(`Viewing details for prescription #PR${String(prescriptionId).padStart(4, '0')}`, 'info');
+    }
+
+    // Show notification
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 bg-${type === 'success' ? 'green' : type === 'error' ? 'red' : 'blue'}-500 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 transform transition-all duration-300 translate-x-full`;
+        notification.innerHTML = `
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'} text-lg"></i>
+                <span class="font-medium">${message}</span>
+            </div>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Animate in
+        setTimeout(() => {
+            notification.classList.remove('translate-x-full');
+        }, 100);
+
+        // Animate out and remove
+        setTimeout(() => {
+            notification.classList.add('translate-x-full');
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 4000);
+    }
+
+    // Load user data
+    async function loadUserData() {
+        try {
+            const response = await fetch('/current-user');
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById('headerUserName').textContent = result.user.fullName;
+                document.getElementById('dropdownUserName').textContent = result.user.fullName;
+                document.getElementById('dropdownUserEmail').textContent = result.user.email;
+                document.getElementById('sidebarUserName').textContent = result.user.fullName;
+            }
+        } catch (error) {
+            console.error('Error loading user data:', error);
+        }
+    }
+
+    // Check user session
+    async function checkSession() {
+        try {
+            const response = await fetch('/check-session');
+            const result = await response.json();
+
+            if (!result.loggedIn) {
+                window.location.href = '/';
+            }
+        } catch (error) {
+            console.error('Error checking session:', error);
+            window.location.href = '/';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        checkSession();
+        loadUserData();
+
+        // Initial load
+        loadCurrentOrders();
+
+        // Refresh button
+        document.getElementById('refreshBtn').addEventListener('click', function() {
+            const activeTab = document.querySelector('.filter-tab.bg-white');
+            const status = activeTab ? activeTab.getAttribute('data-status') : 'all';
+            loadCurrentOrders(status);
+            showNotification('Orders refreshed!', 'success');
+        });
+
+        // Filter tabs
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Update active tab
+                document.querySelectorAll('.filter-tab').forEach(t => {
+                    t.classList.remove('bg-white', 'text-purple-600', 'shadow-sm');
+                    t.classList.add('text-gray-600');
+                });
+                this.classList.add('bg-white', 'text-purple-600', 'shadow-sm');
+                this.classList.remove('text-gray-600');
+
+                // Load filtered orders
+                const status = this.getAttribute('data-status');
+                loadCurrentOrders(status);
+            });
+        });
+
+        // Event delegation for dynamic buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('download-btn') || e.target.closest('.download-btn')) {
+                const button = e.target.classList.contains('download-btn') ? e.target : e.target.closest('.download-btn');
+                const prescriptionId = button.getAttribute('data-prescription-id');
+                downloadPrescription(prescriptionId);
+            }
+
+            if (e.target.classList.contains('delete-btn') || e.target.closest('.delete-btn')) {
+                const button = e.target.classList.contains('delete-btn') ? e.target : e.target.closest('.delete-btn');
+                const prescriptionId = button.getAttribute('data-prescription-id');
+                deletePrescription(prescriptionId);
+            }
+
+            if (e.target.classList.contains('view-details-btn') || e.target.closest('.view-details-btn')) {
+                const button = e.target.classList.contains('view-details-btn') ? e.target : e.target.closest('.view-details-btn');
+                const prescriptionId = button.getAttribute('data-prescription-id');
+                viewPrescriptionDetails(prescriptionId);
+            }
+
+            if (e.target.id === 'retryBtn') {
+                loadCurrentOrders();
+            }
+        });
+    });
+</script>
+</body>
+</html>

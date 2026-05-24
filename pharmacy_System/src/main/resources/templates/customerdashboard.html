@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare - Customer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pharma-green': {
+                            50: '#f0f9f0',
+                            100: '#dcf2dc',
+                            200: '#bce5bc',
+                            300: '#8fd28f',
+                            400: '#5db75d',
+                            500: '#3d9c3d',
+                            600: '#2e7e2e',
+                            700: '#266326',
+                            800: '#214f21',
+                            900: '#1d421d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white shadow-lg flex flex-col">
+        <div class="p-6 border-b border-gray-200">
+            <h1 class="text-2xl font-bold text-pharma-green-600">
+                <i class="fas fa-prescription-bottle-alt mr-2"></i>PharmaCare
+            </h1>
+            <p class="text-sm text-gray-500 mt-1">Your Health, Our Priority</p>
+        </div>
+
+        <nav class="mt-6 flex-1">
+            <a href="#" class="nav-item active block py-3 px-6 border-l-4 border-pharma-green-500 bg-pharma-green-50 text-pharma-green-700" data-target="profile">
+                <i class="fas fa-user-circle mr-3"></i>Edit Profile
+            </a>
+            <a href="#" class="nav-item block py-3 px-6 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:text-pharma-green-600" data-target="discover">
+                <i class="fas fa-search mr-3"></i>Discover Medicine
+            </a>
+            <a href="#" class="nav-item block py-3 px-6 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:text-pharma-green-600" data-target="chat">
+                <i class="fas fa-comment-medical mr-3"></i>Chat with Assistant
+            </a>
+            <a href="#" class="nav-item block py-3 px-6 border-l-4 border-transparent text-gray-600 hover:bg-gray-50 hover:text-pharma-green-600" data-target="cart">
+                <i class="fas fa-shopping-cart mr-3"></i>Cart Details
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-gray-200 mt-auto">
+            <div class="flex items-center">
+                <img class="h-10 w-10 rounded-full object-cover" src="https://cdn-icons-png.flaticon.com/512/1177/1177568.png" alt="Customer Profile">
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-700" id="userName">MLB-B3G1-10</p>
+                    <p class="text-xs font-medium text-pharma-green-500">2025-Y2-S1</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white shadow-sm z-10">
+            <div class="flex justify-between items-center px-8 py-4">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800" id="section-title">Edit Profile</h2>
+                    <p class="text-sm text-gray-500" id="section-description">Manage your personal information</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search medicines..." class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent w-64">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                    <button class="relative p-2 text-gray-600 hover:text-pharma-green-600">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute top-0 right-0 bg-pharma-green-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </button>
+                    <a href="/logout" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Sections -->
+        <main class="flex-1 overflow-auto p-8">
+            <!-- Profile Section -->
+            <section id="profile" class="content-section">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-medium text-gray-900">Personal Information</h3>
+                        <button id="saveProfileBtn" class="px-4 py-2 bg-pharma-green-500 text-white rounded-lg hover:bg-pharma-green-600 transition-colors">
+                            <i class="fas fa-save mr-2"></i>Save Changes
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                            <input type="text" id="firstName" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300" value="John">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <input type="text" id="lastName" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300" value="Doe">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                            <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300" value="john.doe@example.com" readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" id="phoneNumber" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300" value="+1 (555) 123-4567">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                            <input type="date" id="dateOfBirth" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300" value="1985-06-15">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                            <textarea id="address" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300" rows="3">123 Health Street, Wellness City, WC 12345</textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Health Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Blood Type</label>
+                                <select id="bloodType" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300">
+                                    <option value="">Select Blood Type</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Allergies</label>
+                                <input type="text" id="allergies" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300" placeholder="List any allergies">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Discover Medicine Section -->
+            <section id="discover" class="content-section hidden">
+                <div class="mb-6">
+                    <div class="relative">
+                        <input type="text" placeholder="Search for medicines, symptoms, or conditions..." class="w-full px-4 py-3 pl-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300">
+                        <i class="fas fa-search absolute left-4 top-4 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Medicine Card 1 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Paracetamol 500mg</h4>
+                                    <p class="text-sm text-gray-500">Pain Reliever & Fever Reducer</p>
+                                </div>
+                                <span class="bg-pharma-green-100 text-pharma-green-800 text-xs px-2 py-1 rounded">OTC</span>
+                            </div>
+                            <div class="mt-4 flex justify-between items-center">
+                                <div>
+                                    <span class="text-lg font-semibold text-pharma-green-600">$5.99</span>
+                                    <span class="text-sm text-gray-500 ml-1">/ 20 tablets</span>
+                                </div>
+                                <button class="px-3 py-1 bg-pharma-green-500 text-white rounded-lg text-sm hover:bg-pharma-green-600 transition-colors">
+                                    <i class="fas fa-cart-plus mr-1"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medicine Card 2 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Vitamin C 1000mg</h4>
+                                    <p class="text-sm text-gray-500">Immune System Support</p>
+                                </div>
+                                <span class="bg-pharma-green-100 text-pharma-green-800 text-xs px-2 py-1 rounded">Supplement</span>
+                            </div>
+                            <div class="mt-4 flex justify-between items-center">
+                                <div>
+                                    <span class="text-lg font-semibold text-pharma-green-600">$12.49</span>
+                                    <span class="text-sm text-gray-500 ml-1">/ 60 tablets</span>
+                                </div>
+                                <button class="px-3 py-1 bg-pharma-green-500 text-white rounded-lg text-sm hover:bg-pharma-green-600 transition-colors">
+                                    <i class="fas fa-cart-plus mr-1"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medicine Card 3 -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Ibuprofen 200mg</h4>
+                                    <p class="text-sm text-gray-500">Anti-inflammatory Pain Reliever</p>
+                                </div>
+                                <span class="bg-pharma-green-100 text-pharma-green-800 text-xs px-2 py-1 rounded">OTC</span>
+                            </div>
+                            <div class="mt-4 flex justify-between items-center">
+                                <div>
+                                    <span class="text-lg font-semibold text-pharma-green-600">$7.25</span>
+                                    <span class="text-sm text-gray-500 ml-1">/ 30 tablets</span>
+                                </div>
+                                <button class="px-3 py-1 bg-pharma-green-500 text-white rounded-lg text-sm hover:bg-pharma-green-600 transition-colors">
+                                    <i class="fas fa-cart-plus mr-1"></i> Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Popular Categories</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow cursor-pointer">
+                            <i class="fas fa-head-side-cough text-2xl text-pharma-green-500 mb-2"></i>
+                            <p class="font-medium">Cold & Flu</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow cursor-pointer">
+                            <i class="fas fa-pills text-2xl text-pharma-green-500 mb-2"></i>
+                            <p class="font-medium">Pain Relief</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow cursor-pointer">
+                            <i class="fas fa-allergies text-2xl text-pharma-green-500 mb-2"></i>
+                            <p class="font-medium">Allergy</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow cursor-pointer">
+                            <i class="fas fa-heart text-2xl text-pharma-green-500 mb-2"></i>
+                            <p class="font-medium">Heart Health</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chat with Assistant Section -->
+            <section id="chat" class="content-section hidden">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden h-full flex flex-col">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="font-medium text-gray-900">PharmaCare Assistant</h3>
+                        <p class="text-sm text-gray-500">Ask me about medicines, symptoms, or health advice</p>
+                    </div>
+
+                    <div class="p-4 flex-1 overflow-y-auto bg-gray-50" id="chatMessages">
+                        <!-- Chat messages will be populated here -->
+                        <div class="flex mb-4">
+                            <div class="bg-pharma-green-100 rounded-lg p-3 max-w-xs">
+                                <p class="text-sm">Hello! I'm your PharmaCare assistant. How can I help you today?</p>
+                                <span class="text-xs text-gray-500 block mt-1">10:05 AM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-t border-gray-200">
+                        <div class="flex">
+                            <input type="text" id="chatInput" placeholder="Type your message..." class="flex-1 px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-pharma-green-300">
+                            <button id="sendMessage" class="px-4 bg-pharma-green-500 text-white rounded-r-lg hover:bg-pharma-green-600 transition-colors">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cart Details Section -->
+            <section id="cart" class="content-section hidden">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="p-4 border-b border-gray-200">
+                        <h3 class="font-medium text-gray-900">Your Shopping Cart</h3>
+                        <p class="text-sm text-gray-500">3 items in your cart</p>
+                    </div>
+
+                    <div class="divide-y divide-gray-200">
+                        <!-- Cart Item 1 -->
+                        <div class="p-4 flex items-center">
+                            <div class="flex-shrink-0 h-16 w-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-pills text-2xl text-pharma-green-500"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <h4 class="font-medium text-gray-900">Paracetamol 500mg</h4>
+                                <p class="text-sm text-gray-500">20 tablets</p>
+                            </div>
+                            <div class="flex items-center">
+                                <button class="h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-minus text-gray-500"></i>
+                                </button>
+                                <span class="mx-3 font-medium">1</span>
+                                <button class="h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-plus text-gray-500"></i>
+                                </button>
+                            </div>
+                            <div class="ml-6">
+                                <span class="font-medium text-pharma-green-600">Rs:300</span>
+                            </div>
+                            <button class="ml-6 text-gray-400 hover:text-red-500">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+
+                        <!-- Cart Item 2 -->
+                        <div class="p-4 flex items-center">
+                            <div class="flex-shrink-0 h-16 w-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-pills text-2xl text-pharma-green-500"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <h4 class="font-medium text-gray-900">Vitamin C 1000mg</h4>
+                                <p class="text-sm text-gray-500">60 tablets</p>
+                            </div>
+                            <div class="flex items-center">
+                                <button class="h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-minus text-gray-500"></i>
+                                </button>
+                                <span class="mx-3 font-medium">2</span>
+                                <button class="h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-plus text-gray-500"></i>
+                                </button>
+                            </div>
+                            <div class="ml-6">
+                                <span class="font-medium text-pharma-green-600">Rs:987</span>
+                            </div>
+                            <button class="ml-6 text-gray-400 hover:text-red-500">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-t border-gray-200">
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span class="font-medium">Rs:2135</span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-gray-600">Shipping</span>
+                            <span class="font-medium">Rs:450</span>
+                        </div>
+                        <div class="flex justify-between text-lg font-semibold border-t border-gray-200 pt-4">
+                            <span>Total</span>
+                            <span class="text-pharma-green-600">Rs:200</span>
+                        </div>
+
+                        <button class="w-full mt-6 py-3 bg-pharma-green-500 text-white rounded-lg font-medium hover:bg-pharma-green-600 transition-colors">
+                            Proceed to Checkout
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<script>
+    // Navigation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check user session on page load
+        checkSession();
+
+        const navItems = document.querySelectorAll('.nav-item');
+        const contentSections = document.querySelectorAll('.content-section');
+        const sectionTitle = document.getElementById('section-title');
+        const sectionDescription = document.getElementById('section-description');
+
+        // Section titles and descriptions mapping
+        const sectionData = {
+            'profile': {
+                title: 'Edit Profile',
+                description: 'Manage your personal information'
+            },
+            'discover': {
+                title: 'Discover Medicine',
+                description: 'Find and order your medications'
+            },
+            'chat': {
+                title: 'Chat with Assistant',
+                description: 'Ask me about medicines, symptoms, or health advice'
+            },
+            'cart': {
+                title: 'Cart Details',
+                description: 'Review your order before checkout'
+            }
+        };
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Remove active class from all nav items
+                navItems.forEach(navItem => {
+                    navItem.classList.remove('active', 'border-pharma-green-500', 'bg-pharma-green-50', 'text-pharma-green-700');
+                    navItem.classList.add('border-transparent', 'text-gray-600');
+                });
+
+                // Add active class to clicked nav item
+                this.classList.add('active', 'border-pharma-green-500', 'bg-pharma-green-50', 'text-pharma-green-700');
+                this.classList.remove('border-transparent', 'text-gray-600');
+
+                // Get target section
+                const targetId = this.getAttribute('data-target');
+
+                // Hide all content sections
+                contentSections.forEach(section => {
+                    section.classList.add('hidden');
+                });
+
+                // Show target section
+                document.getElementById(targetId).classList.remove('hidden');
+
+                // Update section title and description
+                sectionTitle.textContent = sectionData[targetId].title;
+                sectionDescription.textContent = sectionData[targetId].description;
+            });
+        });
+
+        // Profile functionality
+        document.getElementById('saveProfileBtn').addEventListener('click', updateProfile);
+
+        // Chat functionality
+        document.getElementById('sendMessage').addEventListener('click', sendChatMessage);
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+    });
+
+    // Check user session and load profile data
+    async function checkSession() {
+        try {
+            const response = await fetch('/check-session');
+            const result = await response.json();
+
+            if (result.loggedIn) {
+                document.getElementById('userName').textContent = result.userName;
+                loadProfileData();
+            } else {
+                window.location.href = '/';
+            }
+        } catch (error) {
+            console.error('Error checking session:', error);
+        }
+    }
+
+    // Load user profile data
+    async function loadProfileData() {
+        try {
+            const response = await fetch('/profile/data');
+            const result = await response.json();
+
+            if (result.success) {
+                const user = result.user;
+                // Populate form fields with user data
+                document.getElementById('firstName').value = user.firstName || '';
+                document.getElementById('lastName').value = user.lastName || '';
+                document.getElementById('email').value = user.email || '';
+                document.getElementById('phoneNumber').value = user.phoneNumber || '';
+                document.getElementById('dateOfBirth').value = user.dateOfBirth || '';
+                document.getElementById('address').value = user.address || '';
+                document.getElementById('bloodType').value = user.bloodType || '';
+                document.getElementById('allergies').value = user.allergies || '';
+            }
+        } catch (error) {
+            console.error('Error loading profile data:', error);
+        }
+    }
+
+    // Update profile
+    async function updateProfile() {
+        const profileData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            dateOfBirth: document.getElementById('dateOfBirth').value,
+            address: document.getElementById('address').value,
+            bloodType: document.getElementById('bloodType').value,
+            allergies: document.getElementById('allergies').value
+        };
+
+        try {
+            const response = await fetch('/profile/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(profileData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Profile updated successfully!');
+                // Update user name in sidebar
+                document.getElementById('userName').textContent = `${result.user.firstName} ${result.user.lastName}`;
+            } else {
+                alert('Profile update failed: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            alert('Profile update failed. Please try again.');
+        }
+    }
+
+    // Chat functionality
+    function sendChatMessage() {
+        const chatInput = document.getElementById('chatInput');
+        const message = chatInput.value.trim();
+
+        if (message) {
+            // Add user message to chat
+            addMessageToChat(message, 'user');
+
+            // Clear input
+            chatInput.value = '';
+
+            // Simulate bot response after a delay
+            setTimeout(() => {
+                addMessageToChat("I'm here to help with medication information and health advice. How can I assist you today?", 'bot');
+            }, 1000);
+        }
+    }
+
+    function addMessageToChat(message, sender) {
+        const chatMessages = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : ''}`;
+
+        const messageBubble = document.createElement('div');
+        messageBubble.className = sender === 'user'
+            ? 'bg-pharma-green-500 text-white rounded-lg p-3 max-w-xs'
+            : 'bg-pharma-green-100 rounded-lg p-3 max-w-xs';
+
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        messageBubble.innerHTML = `
+            <p class="text-sm">${message}</p>
+            <span class="text-xs ${sender === 'user' ? 'text-white' : 'text-gray-500'} block mt-1">${time}</span>
+        `;
+
+        messageDiv.appendChild(messageBubble);
+        chatMessages.appendChild(messageDiv);
+
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+</script>
+
+<style>
+    .nav-item {
+        transition: all 0.3s ease;
+    }
+
+    .content-section {
+        display: none;
+    }
+
+    #profile {
+        display: block;
+    }
+</style>
+</body>
+</html>

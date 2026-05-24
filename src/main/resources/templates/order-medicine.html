@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare - Order Medicine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pharma-green': {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        'pharma-blue': {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-pharma-green-50 via-white to-blue-50 min-h-screen">
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-80 bg-gradient-to-b from-white to-pharma-green-50 shadow-2xl flex flex-col border-r-2 border-pharma-green-100">
+        <!-- Logo Section -->
+        <div class="p-6 border-b border-pharma-green-100">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 p-3 rounded-xl shadow-lg">
+                    <i class="fas fa-prescription-bottle-alt text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-pharma-green-800">CarePlus</h1>
+                    <p class="text-sm text-pharma-green-600">Your Health, Our Priority</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="mt-6 flex-1 px-4">
+            <div class="space-y-2">
+                <a href="/dashboard" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-pharma-green-50 hover:to-pharma-green-100 border-2 border-transparent hover:border-pharma-green-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pharma-green-400 to-pharma-green-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-user-edit text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-pharma-green-800">Profile Management</span>
+                        <p class="text-xs text-gray-500 group-hover:text-pharma-green-600">Manage your personal info</p>
+                    </div>
+                </a>
+
+                <a href="/discover-medicine" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-emerald-50 hover:to-emerald-100 border-2 border-transparent hover:border-emerald-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-pills text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-emerald-800">Discover Medicine</span>
+                        <p class="text-xs text-gray-500 group-hover:text-emerald-600">Browse our pharmacy catalog</p>
+                    </div>
+                </a>
+
+                <a href="/order-medicine" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 shadow-sm">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-prescription text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-semibold text-blue-800">Order Medicine</span>
+                        <p class="text-xs text-blue-600">Upload prescriptions</p>
+                    </div>
+                </a>
+
+                <a href="/current-orders" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 border-2 border-transparent hover:border-purple-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-400 to-purple-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-clipboard-list text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-purple-800">Current Orders</span>
+                        <p class="text-xs text-gray-500 group-hover:text-purple-600">Track your orders</p>
+                    </div>
+                </a>
+
+                <a href="/chat" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-indigo-50 hover:to-indigo-100 border-2 border-transparent hover:border-indigo-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-comment-medical text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-indigo-800">AI Assistant</span>
+                        <p class="text-xs text-gray-500 group-hover:text-indigo-600">Get health advice</p>
+                    </div>
+                </a>
+
+                <a href="/cart" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 border-2 border-transparent hover:border-orange-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-shopping-cart text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-orange-800">Cart Details</span>
+                        <p class="text-xs text-gray-500 group-hover:text-orange-600">Review your cart</p>
+                    </div>
+                    <div class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold">3</div>
+                </a>
+            </div>
+        </nav>
+
+        <!-- User Profile Section -->
+        <div class="p-6 border-t border-pharma-green-100 mt-auto">
+            <div class="bg-white rounded-2xl p-4 shadow-lg border border-pharma-green-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-pharma-green-400 to-pharma-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-user-md text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-gray-800" id="sidebarUserName">CarePlus Pharmacy</p>
+                        <p class="text-xs text-pharma-green-600 font-medium">web based portal</p>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Member Since: 2024</span>
+                        <span class="text-pharma-green-600 font-medium">Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white shadow-lg border-b-4 border-blue-500">
+            <div class="flex justify-between items-center px-8 py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-blue-500 p-3 rounded-xl shadow-lg">
+                        <i class="fas fa-prescription text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Order Medicine</h2>
+                        <p class="text-sm text-gray-500">Upload prescription and order medicines</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-6">
+                    <!-- Quick Actions -->
+                    <div class="flex items-center space-x-4">
+                        <a href="/discover-medicine" class="bg-gradient-to-r from-emerald-400 to-emerald-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center space-x-2">
+                            <i class="fas fa-pills"></i>
+                            <span>Discover Medicine</span>
+                        </a>
+                    </div>
+
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center space-x-3 bg-pharma-green-50 px-4 py-2 rounded-xl hover:bg-pharma-green-100 transition-colors border-2 border-transparent hover:border-pharma-green-200">
+                            <div class="w-10 h-10 bg-gradient-to-r from-pharma-green-400 to-pharma-green-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-gray-800" id="headerUserName">MLB-B3G1-10</p>
+                                <p class="text-xs text-pharma-green-600">Y2S1</p>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right z-50">
+                            <div class="p-4 border-b border-gray-100">
+                                <p class="text-sm font-semibold text-gray-800" id="dropdownUserName">IT24100284</p>
+                                <p class="text-xs text-gray-500" id="dropdownUserEmail">Jayaratne M. Y. I. De S.</p>
+                            </div>
+                            <div class="p-2">
+                                <a href="/dashboard" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-pharma-green-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-pharma-green-100 rounded-lg flex items-center justify-center group-hover:bg-pharma-green-200 transition-colors">
+                                        <i class="fas fa-user-edit text-pharma-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Edit Profile</span>
+                                </a>
+                                <a href="/current-orders" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-blue-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                                        <i class="fas fa-clipboard-list text-blue-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Current Orders</span>
+                                </a>
+                                <a href="/cart" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
+                                        <i class="fas fa-shopping-cart text-orange-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Cart Details</span>
+                                    <span class="ml-auto bg-orange-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+                                </a>
+                            </div>
+                            <div class="p-2 border-t border-gray-100">
+                                <a href="/logout" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-red-50 text-red-600 transition-colors group">
+                                    <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors">
+                                        <i class="fas fa-sign-out-alt text-red-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <button class="relative p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
+                        <i class="fas fa-bell text-xl text-gray-600 group-hover:text-pharma-green-600"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-lg">3</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Order Medicine Content -->
+        <main class="flex-1 overflow-auto p-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 border-2 border-white">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">Upload Prescription</h3>
+                            <p class="text-gray-500 mt-2">Upload your prescription and our pharmacists will process your order</p>
+                        </div>
+                        <div class="flex items-center space-x-2 bg-blue-50 px-4 py-2 rounded-2xl border border-blue-200">
+                            <i class="fas fa-clock text-blue-500"></i>
+                            <span class="text-blue-700 font-medium">Processed within 24 hours</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Upload Form -->
+                        <div>
+                            <form id="prescriptionForm" enctype="multipart/form-data" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Doctor's Name *</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <i class="fas fa-user-md text-gray-400 text-lg"></i>
+                                        </div>
+                                        <input type="text" id="doctorName" name="doctorName"
+                                               class="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all"
+                                               placeholder="Dr. Dissanayake" required>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Clinic/Hospital Name *</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                            <i class="fas fa-hospital text-gray-400 text-lg"></i>
+                                        </div>
+                                        <input type="text" id="clinicName" name="clinicName"
+                                               class="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all"
+                                               placeholder="City General Hospital" required>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Prescription File *</label>
+                                    <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8 border-2 border-dashed border-blue-300 hover:border-blue-400 transition-colors cursor-pointer text-center"
+                                         onclick="document.getElementById('prescriptionFile').click()"
+                                         id="fileDropZone">
+                                        <input type="file" id="prescriptionFile" name="prescriptionFile"
+                                               class="hidden" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+                                        <div id="fileUploadContent" class="py-4">
+                                            <div class="w-20 h-20 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                                <i class="fas fa-file-upload text-white text-3xl"></i>
+                                            </div>
+                                            <h4 class="text-xl font-bold text-gray-800 mb-2">Upload Prescription</h4>
+                                            <p class="text-gray-600 mb-2">Drag & drop your file here</p>
+                                            <p class="text-sm text-gray-500">or click to browse</p>
+                                            <div class="mt-4 inline-flex items-center space-x-2 bg-white px-4 py-2 rounded-full border border-blue-200">
+                                                <i class="fas fa-info-circle text-blue-500"></i>
+                                                <span class="text-sm text-blue-700 font-medium">PDF, JPG, PNG, DOC up to 10MB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="fileName" class="text-sm text-blue-600 mt-3 font-medium hidden"></div>
+                                    <div id="fileError" class="text-sm text-red-600 mt-2 hidden"></div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Additional Notes</label>
+                                    <textarea id="notes" name="notes"
+                                              class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all"
+                                              rows="4" placeholder="Any special instructions, dosage details, or notes for our pharmacists..."></textarea>
+                                </div>
+
+                                <button type="submit" id="uploadBtn"
+                                        class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 px-4 rounded-2xl hover:shadow-xl transition-all transform hover:-translate-y-0.5 font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                                    <i class="fas fa-upload mr-2"></i>Upload Prescription & Place Order
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Instructions & Features -->
+                        <div>
+                            <div class="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-8 border-2 border-blue-200">
+                                <h4 class="font-bold text-blue-800 text-xl mb-6 flex items-center">
+                                    <i class="fas fa-graduation-cap mr-3"></i>
+                                    How to upload your prescription
+                                </h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-start bg-white p-4 rounded-2xl border border-blue-100 shadow-sm">
+                                        <div class="bg-blue-500 text-white rounded-xl w-8 h-8 flex items-center justify-center text-sm font-bold mt-1 flex-shrink-0">1</div>
+                                        <p class="ml-4 text-gray-700 font-medium">Ensure your prescription is clear and readable with all details visible</p>
+                                    </div>
+                                    <div class="flex items-start bg-white p-4 rounded-2xl border border-blue-100 shadow-sm">
+                                        <div class="bg-blue-500 text-white rounded-xl w-8 h-8 flex items-center justify-center text-sm font-bold mt-1 flex-shrink-0">2</div>
+                                        <p class="ml-4 text-gray-700 font-medium">Include doctor's name, contact information, and license number</p>
+                                    </div>
+                                    <div class="flex items-start bg-white p-4 rounded-2xl border border-blue-100 shadow-sm">
+                                        <div class="bg-blue-500 text-white rounded-xl w-8 h-8 flex items-center justify-center text-sm font-bold mt-1 flex-shrink-0">3</div>
+                                        <p class="ml-4 text-gray-700 font-medium">Make sure all medication details, dosage, and quantity are visible</p>
+                                    </div>
+                                    <div class="flex items-start bg-white p-4 rounded-2xl border border-blue-100 shadow-sm">
+                                        <div class="bg-blue-500 text-white rounded-xl w-8 h-8 flex items-center justify-center text-sm font-bold mt-1 flex-shrink-0">4</div>
+                                        <p class="ml-4 text-gray-700 font-medium">Check expiration date and validity period of the prescription</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-8 p-6 bg-white rounded-2xl border border-blue-200 shadow-sm">
+                                    <h5 class="font-bold text-blue-700 mb-3 flex items-center">
+                                        <i class="fas fa-shield-alt mr-2"></i>
+                                        Security & Privacy
+                                    </h5>
+                                    <p class="text-sm text-gray-600 mb-4">Your prescription is securely stored and only accessible to authorized pharmacists. We comply with all healthcare privacy regulations.</p>
+                                    <div class="flex items-center space-x-2 text-xs text-blue-600">
+                                        <i class="fas fa-lock"></i>
+                                        <span>HIPAA Compliant • End-to-End Encrypted</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 p-6 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-2xl text-white">
+                                    <h5 class="font-bold mb-2 flex items-center">
+                                        <i class="fas fa-headset mr-2"></i>
+                                        Need help?
+                                    </h5>
+                                    <p class="text-emerald-100 text-sm mb-4">Our pharmacists are available 24/7 to assist you with your prescription needs.</p>
+                                    <button class="bg-white text-emerald-600 px-4 py-2 rounded-xl hover:shadow-lg transition-all font-semibold flex items-center space-x-2" onclick="contactSupport()">
+                                        <i class="fas fa-comment-medical"></i>
+                                        <span>Chat with Pharmacist</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Uploads Preview -->
+                <div class="mt-8 bg-white rounded-3xl shadow-2xl p-8 border-2 border-white">
+                    <h4 class="text-xl font-bold text-gray-800 mb-6">Recent Prescription Uploads</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="recentUploads">
+                        <!-- Recent uploads will be loaded here -->
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-file-prescription text-3xl text-gray-300 mb-3"></i>
+                            <p class="text-sm">No recent uploads</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    // File upload handling
+    function handleFileSelect(file) {
+        const fileName = document.getElementById('fileName');
+        const fileError = document.getElementById('fileError');
+        const fileUploadContent = document.getElementById('fileUploadContent');
+        const uploadBtn = document.getElementById('uploadBtn');
+
+        // Reset previous errors
+        fileError.classList.add('hidden');
+
+        // Validate file type
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        if (!allowedTypes.includes(file.type)) {
+            fileError.textContent = 'Please select a PDF, JPG, PNG, or Word document';
+            fileError.classList.remove('hidden');
+            uploadBtn.disabled = true;
+            return;
+        }
+
+        // Validate file size (10MB)
+        if (file.size > 10 * 1024 * 1024) {
+            fileError.textContent = 'File size must be less than 10MB';
+            fileError.classList.remove('hidden');
+            uploadBtn.disabled = true;
+            return;
+        }
+
+        // Update UI
+        fileName.textContent = 'Selected file: ' + file.name;
+        fileName.classList.remove('hidden');
+
+        fileUploadContent.innerHTML = `
+            <div class="w-20 h-20 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <i class="fas fa-file-check text-white text-3xl"></i>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800 mb-2">Ready to Upload</h4>
+            <p class="text-green-600 font-medium mb-1">${file.name}</p>
+            <p class="text-sm text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB • ${file.type.split('/')[1].toUpperCase()}</p>
+        `;
+
+        uploadBtn.disabled = false;
+    }
+
+    // Upload prescription
+    async function uploadPrescription(formData) {
+        const uploadBtn = document.getElementById('uploadBtn');
+        const originalText = uploadBtn.innerHTML;
+
+        // Show loading state
+        uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Uploading...';
+        uploadBtn.disabled = true;
+
+        try {
+            const response = await fetch('/prescriptions/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Show success message
+                showNotification('Prescription uploaded successfully! Our pharmacists will review it shortly.', 'success');
+
+                // Reset form
+                document.getElementById('prescriptionForm').reset();
+                document.getElementById('fileName').classList.add('hidden');
+                document.getElementById('fileUploadContent').innerHTML = `
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fas fa-file-upload text-white text-3xl"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-2">Upload Prescription</h4>
+                    <p class="text-gray-600 mb-2">Drag & drop your file here</p>
+                    <p class="text-sm text-gray-500">or click to browse</p>
+                    <div class="mt-4 inline-flex items-center space-x-2 bg-white px-4 py-2 rounded-full border border-blue-200">
+                        <i class="fas fa-info-circle text-blue-500"></i>
+                        <span class="text-sm text-blue-700 font-medium">PDF, JPG, PNG, DOC up to 10MB</span>
+                    </div>
+                `;
+            } else {
+                showNotification('Upload failed: ' + result.message, 'error');
+            }
+        } catch (error) {
+            console.error('Error uploading prescription:', error);
+            showNotification('Upload failed. Please try again.', 'error');
+        } finally {
+            // Restore button
+            uploadBtn.innerHTML = originalText;
+            uploadBtn.disabled = false;
+        }
+    }
+
+    // Contact support
+    function contactSupport() {
+        window.location.href = '/chat';
+    }
+
+    // Show notification
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 bg-${type === 'success' ? 'green' : 'red'}-500 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 transform transition-all duration-300 translate-x-full`;
+        notification.innerHTML = `
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} text-lg"></i>
+                <span class="font-medium">${message}</span>
+            </div>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Animate in
+        setTimeout(() => {
+            notification.classList.remove('translate-x-full');
+        }, 100);
+
+        // Animate out and remove
+        setTimeout(() => {
+            notification.classList.add('translate-x-full');
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 5000);
+    }
+
+    // Load user data
+    async function loadUserData() {
+        try {
+            const response = await fetch('/current-user');
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById('headerUserName').textContent = result.user.fullName;
+                document.getElementById('dropdownUserName').textContent = result.user.fullName;
+                document.getElementById('dropdownUserEmail').textContent = result.user.email;
+                document.getElementById('sidebarUserName').textContent = result.user.fullName;
+            }
+        } catch (error) {
+            console.error('Error loading user data:', error);
+        }
+    }
+
+    // Check user session
+    async function checkSession() {
+        try {
+            const response = await fetch('/check-session');
+            const result = await response.json();
+
+            if (!result.loggedIn) {
+                window.location.href = '/';
+            }
+        } catch (error) {
+            console.error('Error checking session:', error);
+            window.location.href = '/';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        checkSession();
+        loadUserData();
+
+        // File input change event
+        document.getElementById('prescriptionFile').addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                handleFileSelect(this.files[0]);
+            }
+        });
+
+        // Form submission
+        document.getElementById('prescriptionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('doctorName', document.getElementById('doctorName').value);
+            formData.append('clinicName', document.getElementById('clinicName').value);
+            formData.append('notes', document.getElementById('notes').value);
+            formData.append('prescriptionFile', document.getElementById('prescriptionFile').files[0]);
+
+            uploadPrescription(formData);
+        });
+
+        // Drag and drop functionality
+        const dropZone = document.getElementById('fileDropZone');
+
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('border-blue-400', 'bg-blue-100');
+        });
+
+        dropZone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            this.classList.remove('border-blue-400', 'bg-blue-100');
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('border-blue-400', 'bg-blue-100');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('prescriptionFile').files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+
+        // Load recent uploads
+        loadRecentUploads();
+    });
+
+    // Load recent prescription uploads
+    async function loadRecentUploads() {
+        try {
+            const response = await fetch('/prescriptions/my-prescriptions');
+            const result = await response.json();
+
+            const recentUploads = document.getElementById('recentUploads');
+
+            if (result.success && result.prescriptions && result.prescriptions.length > 0) {
+                const recent = result.prescriptions.slice(0, 3); // Show only 3 most recent
+                recentUploads.innerHTML = recent.map(prescription => `
+                    <div class="bg-gray-50 rounded-2xl p-6 border-2 border-gray-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-file-prescription text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 text-sm">${prescription.fileName}</p>
+                                    <p class="text-xs text-gray-500">${new Date(prescription.uploadDate).toLocaleDateString()}</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 text-xs font-semibold rounded-full ${
+                    prescription.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
+                        prescription.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
+                            'bg-blue-100 text-blue-800'
+                }">
+                                ${prescription.status}
+                            </span>
+                        </div>
+                        <div class="text-xs text-gray-600 space-y-1">
+                            <p><strong>Doctor:</strong> ${prescription.doctorName || 'Not specified'}</p>
+                            <p><strong>Clinic:</strong> ${prescription.clinicName || 'Not specified'}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Error loading recent uploads:', error);
+        }
+    }
+</script>
+</body>
+</html>

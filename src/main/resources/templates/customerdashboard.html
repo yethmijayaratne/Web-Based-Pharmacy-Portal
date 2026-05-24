@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PharmaCare - Profile Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pharma-green': {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        'pharma-blue': {
+                            50: '#eff6ff',
+                            100: '#67e8f9',
+                            200: '#34d399',
+                            300: '#14b8a6',
+                            400: '#60a5fa',
+                            500: '#0891b2',
+                            600: '#0f766e',
+                            700: '#115e59',
+                            800: '#134e4a',
+                            900: '#042f2e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-pharma-green-50 via-white to-blue-50 min-h-screen">
+<div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-80 bg-gradient-to-b from-white to-pharma-green-50 shadow-2xl flex flex-col border-r-2 border-pharma-green-100">
+        <!-- Logo Section -->
+        <div class="p-6 border-b border-pharma-green-100">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 p-3 rounded-xl shadow-lg">
+                    <i class="fas fa-prescription-bottle-alt text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-pharma-green-800">CarePlus</h1>
+                    <p class="text-sm text-pharma-green-600">Your Health, Our Priority</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="mt-6 flex-1 px-4">
+            <div class="space-y-2">
+                <a href="/dashboard" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group bg-gradient-to-r from-pharma-green-100 to-pharma-green-200 border-2 border-pharma-green-200 shadow-sm">
+                    <div class="w-10 h-10 bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-user-edit text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-semibold text-pharma-green-800">Profile Management</span>
+                        <p class="text-xs text-pharma-green-600">Manage your personal info</p>
+                    </div>
+                </a>
+
+                <a href="/discover-medicine" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-emerald-50 hover:to-emerald-100 border-2 border-transparent hover:border-emerald-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-pills text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-emerald-800">Discover Medicine</span>
+                        <p class="text-xs text-gray-500 group-hover:text-emerald-600">Browse our pharmacy catalog</p>
+                    </div>
+                </a>
+
+                <a href="/order-medicine" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 border-2 border-transparent hover:border-blue-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-prescription text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-blue-800">Order Medicine</span>
+                        <p class="text-xs text-gray-500 group-hover:text-blue-600">Upload prescriptions</p>
+                    </div>
+                </a>
+
+                <a href="/current-orders" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 border-2 border-transparent hover:border-purple-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-400 to-purple-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-clipboard-list text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-purple-800">Current Orders</span>
+                        <p class="text-xs text-gray-500 group-hover:text-purple-600">Track your orders</p>
+                    </div>
+                </a>
+
+                <a href="/chat" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-indigo-50 hover:to-indigo-100 border-2 border-transparent hover:border-indigo-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-comment-medical text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-indigo-800">AI Assistant</span>
+                        <p class="text-xs text-gray-500 group-hover:text-indigo-600">Get health advice</p>
+                    </div>
+                </a>
+
+                <a href="/cart" class="nav-item flex items-center space-x-4 py-4 px-6 rounded-2xl transition-all duration-300 group hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 border-2 border-transparent hover:border-orange-200">
+                    <div class="w-10 h-10 bg-gradient-to-r from-orange-400 to-orange-600 rounded-xl flex items-center justify-center group-hover:shadow-lg transition-all">
+                        <i class="fas fa-shopping-cart text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <span class="font-medium text-gray-700 group-hover:text-orange-800">Cart Details</span>
+                        <p class="text-xs text-gray-500 group-hover:text-orange-600">Review your cart</p>
+                    </div>
+                    <div class="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold">3</div>
+                </a>
+            </div>
+        </nav>
+
+        <!-- User Profile Section -->
+        <div class="p-6 border-t border-pharma-green-100 mt-auto">
+            <div class="bg-white rounded-2xl p-4 shadow-lg border border-pharma-green-100">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-r from-pharma-green-400 to-pharma-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-user-md text-white text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-semibold text-gray-800" id="sidebarUserName">CarePlus Pharmacy</p>
+                        <p class="text-xs text-pharma-green-600 font-medium">web based portal</p>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-gray-100">
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Member Since: 2024</span>
+                        <span class="text-pharma-green-600 font-medium">Active</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white shadow-lg border-b-4 border-pharma-green-500">
+            <div class="flex justify-between items-center px-8 py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-pharma-green-500 p-3 rounded-xl shadow-lg">
+                        <i class="fas fa-user-edit text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Profile Management</h2>
+                        <p class="text-sm text-gray-500">Manage your personal information and health details</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-6">
+                    <!-- Quick Actions -->
+                    <div class="flex items-center space-x-4">
+                        <a href="/discover-medicine" class="bg-gradient-to-r from-emerald-400 to-emerald-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center space-x-2">
+                            <i class="fas fa-pills"></i>
+                            <span>Discover Medicine</span>
+                        </a>
+
+                        <a href="/order-medicine" class="bg-gradient-to-r from-blue-400 to-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center space-x-2">
+                            <i class="fas fa-prescription"></i>
+                            <span>Upload Prescription</span>
+                        </a>
+                    </div>
+
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button class="flex items-center space-x-3 bg-pharma-green-50 px-4 py-2 rounded-xl hover:bg-pharma-green-100 transition-colors border-2 border-transparent hover:border-pharma-green-200">
+                            <div class="w-10 h-10 bg-gradient-to-r from-pharma-green-400 to-pharma-green-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-semibold text-gray-800" id="headerUserName">MLB-B3G1-10</p>
+                                <p class="text-xs text-pharma-green-600">Y2S1</p>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right z-50">
+                            <div class="p-4 border-b border-gray-100">
+                                <p class="text-sm font-semibold text-gray-800" id="dropdownUserName">IT24100284</p>
+                                <p class="text-xs text-gray-500" id="dropdownUserEmail">Jayaratne M. Y. I. De S.</p>
+                            </div>
+                            <div class="p-2">
+                                <a href="/dashboard" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-pharma-green-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-pharma-green-100 rounded-lg flex items-center justify-center group-hover:bg-pharma-green-200 transition-colors">
+                                        <i class="fas fa-user-edit text-pharma-green-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Edit Profile</span>
+                                </a>
+                                <a href="/current-orders" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-blue-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                                        <i class="fas fa-clipboard-list text-blue-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Current Orders</span>
+                                </a>
+                                <a href="/cart" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-orange-50 text-gray-700 transition-colors group">
+                                    <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center group-hover:bg-orange-200 transition-colors">
+                                        <i class="fas fa-shopping-cart text-orange-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Cart Details</span>
+                                    <span class="ml-auto bg-orange-500 text-white text-xs px-2 py-1 rounded-full">3</span>
+                                </a>
+                            </div>
+                            <div class="p-2 border-t border-gray-100">
+                                <a href="/logout" class="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-red-50 text-red-600 transition-colors group">
+                                    <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors">
+                                        <i class="fas fa-sign-out-alt text-red-600 text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium">Logout</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <button class="relative p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors group">
+                        <i class="fas fa-bell text-xl text-gray-600 group-hover:text-pharma-green-600"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow-lg">3</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Profile Content -->
+        <main class="flex-1 overflow-auto p-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="bg-white rounded-3xl shadow-2xl p-8 border-2 border-white">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900">Personal Information</h3>
+                            <p class="text-gray-500 mt-2">Manage your personal details and health information</p>
+                        </div>
+                        <button id="saveProfileBtn" class="bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 text-white px-6 py-3 rounded-xl hover:shadow-xl transition-all transform hover:-translate-y-0.5 font-semibold flex items-center space-x-2">
+                            <i class="fas fa-save"></i>
+                            <span>Save Changes</span>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">First Name</label>
+                            <input type="text" id="firstName" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="First Name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Last Name</label>
+                            <input type="text" id="lastName" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="Last Name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+                            <input type="email" id="email" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all bg-gray-50" placeholder="your@email.com" readonly>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Phone Number</label>
+                            <input type="tel" id="phoneNumber" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="+1 (555) 123-4567">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Date of Birth</label>
+                            <input type="date" id="dateOfBirth" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-3">Address</label>
+                            <textarea id="address" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" rows="3" placeholder="Your complete address"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 pt-8 border-t border-gray-200">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Health Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Blood Type</label>
+                                <select id="bloodType" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all">
+                                    <option value="">Select Blood Type</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Allergies</label>
+                                <input type="text" id="allergies" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="List any allergies (separated by commas)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Change Password Section -->
+                    <div class="mt-12 pt-8 border-t border-gray-200">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Change Password</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Current Password</label>
+                                <input type="password" id="currentPassword" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="Current password">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">New Password</label>
+                                <input type="password" id="newPassword" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="New password">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" class="w-full px-4 py-4 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-pharma-green-300 focus:border-transparent transition-all" placeholder="Confirm new password">
+                            </div>
+                            <div class="flex items-end">
+                                <button id="changePasswordBtn" class="bg-gradient-to-r from-pharma-green-500 to-pharma-green-600 text-white px-6 py-4 rounded-xl hover:shadow-xl transition-all transform hover:-translate-y-0.5 font-semibold flex items-center space-x-2">
+                                    <i class="fas fa-key"></i>
+                                    <span>Change Password</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    // Load user data
+    async function loadUserData() {
+        try {
+            const response = await fetch('/current-user');
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById('headerUserName').textContent = result.user.fullName;
+                document.getElementById('dropdownUserName').textContent = result.user.fullName;
+                document.getElementById('dropdownUserEmail').textContent = result.user.email;
+                document.getElementById('sidebarUserName').textContent = result.user.fullName;
+            }
+        } catch (error) {
+            console.error('Error loading user data:', error);
+        }
+    }
+
+    // Load user profile data
+    async function loadProfileData() {
+        try {
+            const response = await fetch('/profile/data');
+            const result = await response.json();
+
+            if (result.success) {
+                const user = result.user;
+                document.getElementById('firstName').value = user.firstName || '';
+                document.getElementById('lastName').value = user.lastName || '';
+                document.getElementById('email').value = user.email || '';
+                document.getElementById('phoneNumber').value = user.phoneNumber || '';
+                document.getElementById('dateOfBirth').value = user.dateOfBirth || '';
+                document.getElementById('address').value = user.address || '';
+                document.getElementById('bloodType').value = user.bloodType || '';
+                document.getElementById('allergies').value = user.allergies || '';
+            }
+        } catch (error) {
+            console.error('Error loading profile data:', error);
+        }
+    }
+
+    // Update profile
+    async function updateProfile() {
+        const profileData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            dateOfBirth: document.getElementById('dateOfBirth').value,
+            address: document.getElementById('address').value,
+            bloodType: document.getElementById('bloodType').value,
+            allergies: document.getElementById('allergies').value
+        };
+
+        try {
+            const response = await fetch('/profile/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(profileData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Profile updated successfully!');
+                // Update user name in header and sidebar
+                document.getElementById('headerUserName').textContent = result.user.fullName;
+                document.getElementById('dropdownUserName').textContent = result.user.fullName;
+                document.getElementById('sidebarUserName').textContent = result.user.fullName;
+            } else {
+                alert('Profile update failed: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            alert('Profile update failed. Please try again.');
+        }
+    }
+
+    // Change password
+    async function changePassword() {
+        const passwordData = {
+            currentPassword: document.getElementById('currentPassword').value,
+            newPassword: document.getElementById('newPassword').value,
+            confirmPassword: document.getElementById('confirmPassword').value
+        };
+
+        try {
+            const response = await fetch('/profile/change-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(passwordData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert('Password changed successfully!');
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+            } else {
+                alert('Password change failed: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error changing password:', error);
+            alert('Password change failed. Please try again.');
+        }
+    }
+
+    // Check user session
+    async function checkSession() {
+        try {
+            const response = await fetch('/check-session');
+            const result = await response.json();
+
+            if (!result.loggedIn) {
+                window.location.href = '/';
+            }
+        } catch (error) {
+            console.error('Error checking session:', error);
+            window.location.href = '/';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        checkSession();
+        loadUserData();
+        loadProfileData();
+
+        document.getElementById('saveProfileBtn').addEventListener('click', updateProfile);
+        document.getElementById('changePasswordBtn').addEventListener('click', changePassword);
+    });
+</script>
+</body>
+</html>
